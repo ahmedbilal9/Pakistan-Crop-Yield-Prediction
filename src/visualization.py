@@ -47,7 +47,7 @@ class Visualizer:
         
         # Plot box plot
         plt.subplot(1, 2, 2)
-        data.boxplot(column=[column])
+        data.boxplot(column=column)
         plt.ylabel(column)
         plt.title(f'Box Plot of {column}')
         

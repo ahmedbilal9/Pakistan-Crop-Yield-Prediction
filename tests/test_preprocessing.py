@@ -38,8 +38,9 @@ class TestDataPreprocessor:
     def temp_csv_file(self, sample_data):
         """Create a temporary CSV file with sample data."""
         with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.csv') as f:
-            sample_data.to_csv(f.name, index=False)
             temp_file = f.name
+        # Write data after closing the file handle
+        sample_data.to_csv(temp_file, index=False)
         yield temp_file
         # Cleanup
         if os.path.exists(temp_file):

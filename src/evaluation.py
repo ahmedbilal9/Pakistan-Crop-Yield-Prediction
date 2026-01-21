@@ -95,7 +95,8 @@ class ModelEvaluator:
         
         if isinstance(metrics, pd.DataFrame):
             # Save as CSV
-            metrics.to_csv(filepath.replace('.json', '.csv'), index=False)
+            csv_path = os.path.splitext(filepath)[0] + '.csv'
+            metrics.to_csv(csv_path, index=False)
             # Also save as JSON
             metrics.to_json(filepath, orient='records', indent=2)
         else:

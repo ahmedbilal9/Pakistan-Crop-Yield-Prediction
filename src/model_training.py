@@ -10,6 +10,13 @@ import joblib
 import os
 from typing import Dict, Any, Optional
 
+# Try to import XGBoost, set flag if not available
+try:
+    import xgboost as xgb
+    XGBOOST_AVAILABLE = True
+except ImportError:
+    XGBOOST_AVAILABLE = False
+
 
 class ModelTrainer:
     """Handles model training and saving."""
@@ -48,9 +55,8 @@ class ModelTrainer:
             )
         }
         
-        # Try to import and add XGBoost if available
-        try:
-            import xgboost as xgb
+        # Add XGBoost if available
+        if XGBOOST_AVAILABLE:
             xgb_params = self.config.get('xgboost', {})
             self.models['xgboost'] = xgb.XGBRegressor(
                 n_estimators=xgb_params.get('n_estimators', 100),
@@ -59,7 +65,7 @@ class ModelTrainer:
                 random_state=xgb_params.get('random_state', 42),
                 n_jobs=-1
             )
-        except ImportError:
+        else:
             print("XGBoost not available. Skipping XGBoost model.")
         
         self.trained_models = {}
